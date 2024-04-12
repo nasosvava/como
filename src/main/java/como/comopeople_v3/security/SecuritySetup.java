@@ -36,7 +36,7 @@ public class SecuritySetup {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/error").permitAll()
                         .requestMatchers("/registration/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/attendance/**").hasAuthority("ROLE_USER")
+                        .requestMatchers("/attendance/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )

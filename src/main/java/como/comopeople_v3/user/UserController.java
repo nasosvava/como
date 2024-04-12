@@ -1,5 +1,8 @@
 package como.comopeople_v3.user;
 
+import como.comopeople_v3.attendance.Attendance;
+import como.comopeople_v3.attendance.AttendanceService;
+import como.comopeople_v3.attendance.AttendanceServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final AttendanceServiceImpl attendanceService;
 
     @GetMapping
     public String getUsers(Model model){
@@ -28,8 +33,11 @@ public class UserController {
     }
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model){
-        Optional<User> user = userService.findById(id);
-        model.addAttribute("user", user.get());
+        User user = userService.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<Attendance> attendances = attendanceService.getAttendancesByUser(id);
+        model.addAttribute("user", user);
+        model.addAttribute("attendances", attendances);
         return "update-user";
     }
 
@@ -43,4 +51,5 @@ public class UserController {
         userService.deleteUser(id);
         return "redirect:/users?delete_success";
     }
+
 }

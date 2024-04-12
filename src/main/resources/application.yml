@@ -4,8 +4,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
-    password:
+    username: comotest12@gmail.com
+    password: ikhr tnge zlae mxeb
     properties:
       mail:
         smtp:
@@ -14,8 +14,8 @@ spring:
             enable: true
   datasource:
     url: jdbc:postgresql://localhost:5432/como
-    username:
-    password:
+    username: postgres
+    password: mpesa123
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

@@ -9,34 +9,43 @@
     <div th:replace="fragments :: nav_bar"></div>
     <h2 class="m-4">Edit User</h2>
     <form th:action="@{/admin/update/{id}(id=${user.id})}" method="post" th:object="${user}" class="px-4">
+        <!-- User fields -->
         <input type="hidden" th:field="*{id}">
-        <div class="mb-3 row">
-            <label for="firstName" class="col-sm-2 col-form-label">first Name</label>
-            <div class="col-sm-6">
-                <input type="text"  id="firstName" autofocus="autofocus"
-                       class="form-control" required name="firstName" th:field="*{firstName}" >
-            </div>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" th:field="*{firstName}" required>
         </div>
-
-        <div class="mb-3 row">
-            <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-            <div class="col-sm-6">
-                <input type="text"  id="lastName" autofocus="autofocus"
-                       class="form-control" required name="lastName" th:field="*{lastName}" >
-            </div>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" th:field="*{lastName}" required>
         </div>
-
-        <div class="mb-3 row">
-            <label for="email" class="col-sm-2 col-form-label">Email</label>
-            <div class="col-sm-6">
-                <input type="text"  id="email" autofocus="autofocus"
-                       class="form-control" required name="email" th:field="*{email}" >
-            </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" th:field="*{email}" required>
         </div>
-        <div>
-            <button type="submit" class="btn btn-success">Update User</button>
-        </div>
+        <button type="submit" class="btn btn-success">Update User</button>
     </form>
+
+    <!-- Attendance Records Section -->
+    <h3 class="mt-4">Attendance Records</h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Hours Worked</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="attendance : ${attendances}">
+            <td th:text="${#temporals.format(attendance.startTime, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#temporals.format(attendance.startTime, 'HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(attendance.endTime, 'HH:mm:ss')}"></td>
+            <td th:text="${T(java.time.Duration).between(attendance.startTime, attendance.endTime).toHours()} + ' hrs'"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

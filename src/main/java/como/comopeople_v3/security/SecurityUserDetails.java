@@ -1,5 +1,6 @@
 package como.comopeople_v3.security;
 
+import como.comopeople_v3.attendance.Attendance;
 import como.comopeople_v3.user.User;
 import como.comopeople_v3.user.UserRequest;
 import lombok.Data;
@@ -18,12 +19,14 @@ public class SecurityUserDetails implements UserDetails {
     private String password;
     private boolean isEnabled;
     private List<GrantedAuthority> authorities;
+    private List<Attendance> attendances;
 
-    public SecurityUserDetails(User user) {
+    public SecurityUserDetails(User user, List<Attendance> attendances) {
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
         getUser(user);
+        this.attendances = attendances;
         this.authorities = user.getRoles().stream()
                 .map(role -> {
                     return new SimpleGrantedAuthority(role.getName());
