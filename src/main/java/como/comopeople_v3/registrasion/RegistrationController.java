@@ -12,6 +12,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,13 +36,13 @@ public class RegistrationController {
     private final PasswordResetTokenServiceImpl passwordResetTokenService;
     private final RegistrationCompleteEventListener eventListener;
 
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/registration-form")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new RegistrationRequest());
         return "registration";
     }
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") RegistrationRequest registration, HttpServletRequest request) {
         User user = userService.registerUser(registration);
