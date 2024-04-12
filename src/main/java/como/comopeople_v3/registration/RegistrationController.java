@@ -1,4 +1,4 @@
-package como.comopeople_v3.registrasion;
+package como.comopeople_v3.registration;
 
 import como.comopeople_v3.events.RegistrationCompleteEvent;
 import como.comopeople_v3.events.listener.RegistrationCompleteEventListener;

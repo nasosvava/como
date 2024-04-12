@@ -1,6 +1,6 @@
 package como.comopeople_v3.user;
 
-import como.comopeople_v3.registrasion.RegistrationRequest;
+import como.comopeople_v3.registration.RegistrationRequest;
 
 import java.util.List;
 import java.util.Optional;

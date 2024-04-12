@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Attendance</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div th:replace="fragments :: nav_bar"></div>
+    <h2>Employee Attendance</h2>
+
+    <div sec:authorize="isAuthenticated()">
+        <h3>Add New Attendance Record</h3>
+        <form th:action="@{/attendance/add}" method="post">
+            <div class="form-group">
+                <label for="startTime">Start Time:</label>
+                <input type="datetime-local" id="startTime" name="startTime" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="endTime">End Time:</label>
+                <input type="datetime-local" id="endTime" name="endTime" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <h3 class="mt-4">Your Attendance Records</h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Hours Worked</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="attendance : ${attendances}">
+                <td th:text="${#temporals.format(attendance.startTime, 'yyyy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(attendance.startTime, 'HH:mm:ss')}"></td>
+                <td th:text="${#temporals.format(attendance.endTime, 'HH:mm:ss')}"></td>
+                <td th:text="${T(java.time.Duration).between(attendance.startTime, attendance.endTime).toHours()} + ' hrs'"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        <p>Please <a href="/login">login</a> to manage your attendance.</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

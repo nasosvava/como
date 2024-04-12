@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="container col-md-offset-3 col-md-8 mt-lg-5">
-    <div th:replace="fragments :: nav_bar"></div>
+    <div th:replace="~{fragments :: nav_bar}"></div>
     <div class="row mt-2">
         <div th:if="${param.update_success}" class=" alert alert-info">
             A User has been updated successfully.

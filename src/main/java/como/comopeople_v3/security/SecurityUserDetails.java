@@ -1,18 +1,19 @@
 package como.comopeople_v3.security;
 
 import como.comopeople_v3.user.User;
+import como.comopeople_v3.user.UserRequest;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 public class SecurityUserDetails implements UserDetails {
+    private UserRequest userRequest;
     private String userName;
     private String password;
     private boolean isEnabled;
@@ -22,12 +23,22 @@ public class SecurityUserDetails implements UserDetails {
         this.userName = user.getEmail();
         this.password = user.getPassword();
         this.isEnabled = user.isEnabled();
+        getUser(user);
         this.authorities = user.getRoles().stream()
                 .map(role -> {
                     return new SimpleGrantedAuthority(role.getName());
                 })
                 .collect(Collectors.toList());
     }
+
+    private void getUser(User user) {
+        this.userRequest = new UserRequest();
+        this.userRequest.setFirstName(user.getFirstName());
+        this.userRequest.setLastName(user.getLastName());
+        this.userRequest.setEmail(user.getEmail());
+        this.userRequest.setPhone(user.getPhone());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

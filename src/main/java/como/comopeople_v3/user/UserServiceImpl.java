@@ -1,6 +1,6 @@
 package como.comopeople_v3.user;
 
-import como.comopeople_v3.registrasion.RegistrationRequest;
+import como.comopeople_v3.registration.RegistrationRequest;
 import como.comopeople_v3.token.VerificationTokenService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

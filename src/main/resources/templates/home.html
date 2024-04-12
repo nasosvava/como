@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:replace="fragments :: boots_trap">
     <meta charset="UTF-8">
-    <title>The Demo App</title>
+    <title>Como App</title>
 </head>
 
 <body>
 <div class="container offset-sm-2 col-md-8 mt-lg-5">
-    <div th:replace="fragments :: nav_bar"></div>
-    <h2 class="m-lg-5">Welcome to our end to end web application security demo </h2>
+    <div th:replace="~{fragments :: nav_bar}"></div>
+
+    <!-- Check if the user is authenticated and not anonymous -->
+    <div class="user-details" sec:authorize="isAuthenticated()">
+        <h3>User Details:</h3>
+        <!-- Display user name, roles and email -->
+        <p>Name: <span th:text="${#authentication.principal.userRequest.firstName +' '+#authentication.principal.userRequest.lastName}">[User's Full Name]</span></p>
+        <p>Roles: <span th:text="${#authentication.authorities}">[Roles]</span></p>
+        <p>Email: <span th:text="${#authentication.principal.username}">[Email]</span></p>
+    </div>
+
+    <!-- Display if user is not authenticated or anonymous -->
+    <div class="alert alert-info" th:unless="${#authentication.authenticated}">
+        <strong>Info:</strong> You are not logged in.
+    </div>
 </div>
 </body>
 </html>
