@@ -35,8 +35,8 @@ public class SecuritySetup {
                 .csrf(AbstractHttpConfigurer::disable)  // Disabling CSRF protection
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/error").permitAll()
-                        .requestMatchers("/registration/**").hasAuthority("ROLE_ADMIN")// Public paths
-                        .anyRequest().authenticated()  // All other requests require authentication
+                        .requestMatchers("/registration/**").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

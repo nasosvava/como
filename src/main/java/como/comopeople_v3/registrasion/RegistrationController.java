@@ -36,13 +36,13 @@ public class RegistrationController {
     private final PasswordResetTokenServiceImpl passwordResetTokenService;
     private final RegistrationCompleteEventListener eventListener;
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/registration-form")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new RegistrationRequest());
         return "registration";
     }
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") RegistrationRequest registration, HttpServletRequest request) {
         User user = userService.registerUser(registration);

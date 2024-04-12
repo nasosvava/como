@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         var user = new User(registration.getFirstName(), registration.getLastName(),
                 registration.getEmail(),
                 passwordEncoder.encode(registration.getPassword()),
-                Arrays.asList(new Role("ROLE_USER")));
+                List.of(new Role("ROLE_USER")));
         return userRepository.save(user);
     }
     @Override
