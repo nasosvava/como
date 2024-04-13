@@ -44,12 +44,12 @@ public class UserController {
     @PostMapping("/update/{id}")
     public String updateUser(@PathVariable("id") Long id, User user){
         userService.updateUser(id, user.getFirstName(), user.getLastName(), user.getEmail());
-        return "redirect:/users?update_success";
+        return "redirect:/admin?update_success";
     }
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
-        return "redirect:/users?delete_success";
+        return "redirect:/admin?delete_success";
     }
 
 }
