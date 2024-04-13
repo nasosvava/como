@@ -22,19 +22,22 @@
             <label for="email">Email</label>
             <input type="email" class="form-control" th:field="*{email}" required>
         </div>
+          <div class="form-group">
+            <label for="email">Total Leave Days</label>
+            <input type="email" class="form-control" th:field="*{totalLeaveDays}" required>
+        </div>
+          <div class="form-group">
+            <label for="email">Leave Days Used</label>
+            <input type="email" class="form-control" th:field="*{leaveDaysUsed}" required>
+        </div>
 
+        <p>Remaining Days:
+            <span th:text="${user.totalLeaveDays - user.leaveDaysUsed}"></span>
+        </p>
 
         <button type="submit" class="btn btn-success">Update User</button>
     </form>
 
-    <div class="remaining-leave">
-        <h3>Remaining Leave Days</h3>
-        <p>Total Leave Days: <span th:text="${user.totalLeaveDays}"></span></p>
-        <p>Leave Days Used: <span th:text="${user.leaveDaysUsed}"></span></p>
-        <p>Remaining Days:
-            <span th:text="${user.totalLeaveDays - user.leaveDaysUsed}"></span>
-        </p>
-    </div>
     <!-- Attendance Records Section -->
     <h3 class="mt-4">Attendance Records</h3>
     <table class="table table-bordered">
@@ -65,6 +68,7 @@
                 <th>End Date</th>
                 <th>Type</th>
                 <th>Status</th>
+                <th>Duration (Days)</th>
                 <th>Action</th>
             </tr>
             </thead>
@@ -75,15 +79,37 @@
                 <td th:text="${leave.endDate}"></td>
                 <td th:text="${leave.leaveType}"></td>
                 <td th:text="${leave.status}"></td>
-                <td ></td>
-                <td sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/admin/leave/approve/{id}(id=${leave.id})}" class="btn btn-success">Approve</a>
-                    <a th:href="@{/admin/leave/reject/{id}(id=${leave.id})}" class="btn btn-danger">Reject</a>
-
+                <td th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(leave.startDate, leave.endDate.plusDays(1))}"></td>
+                <td>
+                    <div th:if="${leave.status == 'Pending'}">
+                        <a th:href="@{/admin/leave/approve/{id}(id=${leave.id})}" class="btn btn-success">Approve</a>
+                        <a th:href="@{/admin/leave/reject/{id}(id=${leave.id})}" class="btn btn-danger">Reject</a>
+                    </div>
+                    <div th:if="${leave.status != 'Pending'}" th:text="${'Status: ' + leave.status}" class="badge bg-info text-white"></div>
                 </td>
             </tr>
             </tbody>
         </table>
+        <div class="leave-form">
+            <h3>Create Leave for User</h3>
+            <form th:action="@{/admin/user/{userId}/create-leave(userId=${user.id})}" method="post">
+                <div class="form-group">
+                    <label for="leaveType">Leave Type</label>
+                    <select id="leaveType" name="leaveType" class="form-control" required>
+                        <option th:each="type : ${leaveTypes}" th:value="${type}" th:text="${type}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate" name="startDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate" name="endDate" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Leave</button>
+            </form>
+        </div>
     </div>
 </div>
 </body>

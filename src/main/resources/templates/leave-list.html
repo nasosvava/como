@@ -16,7 +16,7 @@
             <th>Date To</th>
             <th>Type</th>
             <th>Status</th>
-            <th sec:authorize="hasRole('ADMIN')">Actions</th>
+            <th>Duration (Days)</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +25,7 @@
             <td th:text="${leave.endDate}"></td>
             <td th:text="${leave.leaveType}"></td>
             <td th:text="${leave.status}"></td>
+            <td th:text="${T(java.time.temporal.ChronoUnit).DAYS.between(leave.startDate, leave.endDate.plusDays(1))}"></td>
         </tr>
         </tbody>
     </table>

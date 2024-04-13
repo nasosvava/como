@@ -92,8 +92,11 @@ public class LeaveServiceImpl implements LeaveService {
     }
 
     private int calculateLeaveDays(LocalDate start, LocalDate end, boolean isHalfDay) {
+        if (start.isAfter(end)) {
+            throw new IllegalArgumentException("Start date must be before end date.");
+        }
         if (isHalfDay) {
-            return 1;
+            return 1; // Assuming half day doesn't depend on the date range
         }
         Set<LocalDate> holidays = holidayRepository.findAll().stream()
                 .map(Holiday::getDate)
@@ -101,7 +104,7 @@ public class LeaveServiceImpl implements LeaveService {
 
         return (int) start.datesUntil(end.plusDays(1))
                 .filter(date -> !holidays.contains(date))
-                .count(); // Exclude holidays from leave days count
+                .count();
     }
 
     private void updateLeaveDaysUsed(Leave leave) {
