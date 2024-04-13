@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:replace="fragments :: boots_trap">
     <meta charset="UTF-8">
     <title>Update User</title>
 </head>
 <body>
-<div class="container col-md-offset-3 col-md-8 mt-lg-5 mb-md-5">
+<div class="container col-md-offset-3 col-md-8 mt-lg-5 mb-md-5" sec:authorize="hasRole('ADMIN')">
     <div th:replace="fragments :: nav_bar"></div>
     <h2 class="m-4">Edit User</h2>
     <form th:action="@{/admin/update/{id}(id=${user.id})}" method="post" th:object="${user}" class="px-4">
-        <!-- User fields -->
-        <input type="hidden" th:field="*{id}">
+
         <div class="form-group">
             <label for="firstName">First Name</label>
             <input type="text" class="form-control" th:field="*{firstName}" required>
@@ -23,9 +22,19 @@
             <label for="email">Email</label>
             <input type="email" class="form-control" th:field="*{email}" required>
         </div>
+
+
         <button type="submit" class="btn btn-success">Update User</button>
     </form>
 
+    <div class="remaining-leave">
+        <h3>Remaining Leave Days</h3>
+        <p>Total Leave Days: <span th:text="${user.totalLeaveDays}"></span></p>
+        <p>Leave Days Used: <span th:text="${user.leaveDaysUsed}"></span></p>
+        <p>Remaining Days:
+            <span th:text="${user.totalLeaveDays - user.leaveDaysUsed}"></span>
+        </p>
+    </div>
     <!-- Attendance Records Section -->
     <h3 class="mt-4">Attendance Records</h3>
     <table class="table table-bordered">
@@ -46,6 +55,36 @@
         </tr>
         </tbody>
     </table>
+    <div class="container">
+        <h3>Manage Leaves</h3>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>User</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="leave : ${leaves}">
+                <td th:text="${leave.user.firstName} + ' ' + ${leave.user.lastName}"></td>
+                <td th:text="${leave.startDate}"></td>
+                <td th:text="${leave.endDate}"></td>
+                <td th:text="${leave.leaveType}"></td>
+                <td th:text="${leave.status}"></td>
+                <td ></td>
+                <td sec:authorize="hasRole('ADMIN')">
+                    <a th:href="@{/admin/leave/approve/{id}(id=${leave.id})}" class="btn btn-success">Approve</a>
+                    <a th:href="@{/admin/leave/reject/{id}(id=${leave.id})}" class="btn btn-danger">Reject</a>
+
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

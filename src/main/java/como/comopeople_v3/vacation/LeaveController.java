@@ -7,6 +7,7 @@ import como.comopeople_v3.vacation.entities.Leave;
 import como.comopeople_v3.vacation.enums.LeaveType;
 import como.comopeople_v3.vacation.services.LeaveService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,7 @@ public class LeaveController {
 
         Optional<User> user = userService.findByEmail(email);
         if (user.isEmpty()) {
-            // handle error or no user found scenario
-            return "errorPage"; // Redirect to an error page or similar
+            return "errorPage";
         }
 
         model.addAttribute("leaves", leaveService.getAllLeavesForUser(user.get().getId()));
@@ -62,30 +62,4 @@ public class LeaveController {
         return "redirect:/leave"; // Make sure redirect URI is correct
     }
 
-    @GetMapping("/approve/{id}")
-    public String approveLeave(@PathVariable Long id) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        Optional<User> user = userService.findByEmail(email);
-        if (user.isEmpty() || !currentUserHasAdminRights()) {
-            return "errorPage";
-        }
-        leaveService.approveLeave(id);
-        return "redirect:/leave";
-    }
-
-    @GetMapping("/reject/{id}")
-    public String rejectLeave(@PathVariable Long id) {
-        leaveService.rejectLeave(id);
-        return "redirect:/leave";
-    }
-
-    private boolean currentUserHasAdminRights() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return false;
-        }
-        return authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
-    }
 }

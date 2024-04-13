@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head th:replace="fragments :: boots_trap">
     <meta charset="UTF-8">
     <title> Users</title>
 </head>
 <body>
-<div class="container col-md-offset-3 col-md-8 mt-lg-5">
+<div class="container col-md-offset-3 col-md-8 mt-lg-5" sec:authorize="hasRole('ADMIN')">
     <div th:replace="~{fragments :: nav_bar}"></div>
     <div class="row mt-2">
         <div th:if="${param.update_success}" class=" alert alert-info">

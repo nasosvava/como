@@ -32,12 +32,13 @@ public class SecuritySetup {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(AbstractHttpConfigurer::disable)  // Disabling CSRF protection
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/error").permitAll()
                         .requestMatchers("/registration/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/attendance/**").authenticated()
-                        .requestMatchers("/leave/**").authenticated()
+                        .requestMatchers("/leave", "/leave/request", "leave/submit").authenticated()
+                        .requestMatchers("/leave/approve", "/leaves/reject").hasRole("ADMIN")
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
