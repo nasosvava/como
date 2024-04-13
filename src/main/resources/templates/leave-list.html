@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Leave Requests</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Your Leave Requests</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date From</th>
+            <th>Date To</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th sec:authorize="hasRole('ADMIN')">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="leave : ${leaves}">
+            <td th:text="${leave.startDate}"></td>
+            <td th:text="${leave.endDate}"></td>
+            <td th:text="${leave.leaveType}"></td>
+            <td th:text="${leave.status}"></td>
+
+            <!-- Conditionally show buttons only if the user is an admin -->
+            <td sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{'/leaves/approve/' + ${leave.id}}" class="btn btn-success btn-sm">Approve</a>
+                <a th:href="@{'/leaves/reject/' + ${leave.id}}" class="btn btn-danger btn-sm">Reject</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/leave/request" class="btn btn-primary">Request Leave</a>
+</div>
+</body>
+</html>

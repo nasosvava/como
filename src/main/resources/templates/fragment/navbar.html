@@ -10,16 +10,19 @@
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div >
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#" th:href="@{/}">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" sec:authorize="hasRole('ADMIN')" href="#" th:href="@{/admin}">Users</a>
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="#" th:href="@{/admin}">Users</a>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link" href="#" th:href="@{/attendance}">Attendance</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="#" th:href="@{/leave}">Leaves</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()">
                     <a class="nav-link" href="#" th:href="@{/login}">Login</a>

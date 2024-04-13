@@ -37,6 +37,7 @@ public class SecuritySetup {
                         .requestMatchers("/", "/login", "/error").permitAll()
                         .requestMatchers("/registration/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/attendance/**").authenticated()
+                        .requestMatchers("/leave/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
