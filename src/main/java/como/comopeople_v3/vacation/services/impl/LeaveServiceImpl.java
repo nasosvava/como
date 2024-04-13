@@ -35,6 +35,11 @@ public class LeaveServiceImpl implements LeaveService {
     public Leave requestLeave(Long userId, LeaveType leaveType, LocalDate startDate, LocalDate endDate, boolean isHalfDay) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + userId));
 
+        // For half-day leaves, adjust endDate to be the same as startDate
+        if (isHalfDay) {
+            endDate = startDate;
+        }
+
         if (!isEligibleForLeave(user, startDate, endDate, isHalfDay)) {
             throw new IllegalStateException("Not eligible for leave or leave days exceeded");
         }

@@ -92,25 +92,69 @@
         </table>
         <div class="leave-form">
             <h3>Create Leave for User</h3>
-            <form th:action="@{/admin/user/{userId}/create-leave(userId=${user.id})}" method="post">
+            <form th:action="@{/admin/user/{userId}/create-leave(userId=${user.id})}" method="post" >
                 <div class="form-group">
                     <label for="leaveType">Leave Type</label>
                     <select id="leaveType" name="leaveType" class="form-control" required>
                         <option th:each="type : ${leaveTypes}" th:value="${type}" th:text="${type}"></option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="isHalfDay" name="halfDay" onchange="toggleDateFields()">
+                    <label class="form-check-label" for="isHalfDay">Half Day</label>
+                </div>
+                <div class="form-group" id="fullDayDates">
                     <label for="startDate">Start Date</label>
                     <input type="date" id="startDate" name="startDate" class="form-control" required>
-                </div>
-                <div class="form-group">
                     <label for="endDate">End Date</label>
                     <input type="date" id="endDate" name="endDate" class="form-control" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Create Leave</button>
+                <div  class="form-group" id="halfDayDate" style="display:none;">
+                    <label for="halfDayDateInput">Date</label>
+                    <input onchange="setStartDateAndEndDate()" type="date" id="halfDayDateInput" name="halfDayDate" class="form-control">
+                </div>
+                <button  type="submit" class="btn btn-primary">Create Leave</button>
             </form>
         </div>
+
     </div>
 </div>
+<script>
+    function toggleDateFields() {
+        const isHalfDay = document.getElementById('isHalfDay').checked;
+        const fullDayDatesDiv = document.getElementById('fullDayDates');
+        const halfDayDateDiv = document.getElementById('halfDayDate');
+        const startDate = document.getElementById('startDate');
+        const endDate = document.getElementById('endDate');
+        const halfDayDateInput = document.getElementById('halfDayDateInput');
+
+        if (isHalfDay) {
+            fullDayDatesDiv.style.display = 'none';
+            halfDayDateDiv.style.display = 'block';
+            halfDayDateInput.required = true;
+            startDate.required = false;
+            endDate.required = false;
+        } else {
+            fullDayDatesDiv.style.display = 'block';
+            halfDayDateDiv.style.display = 'none';
+            halfDayDateInput.required = false;
+            startDate.required = true;
+            endDate.required = true;
+        }
+    }
+
+    function setStartDateAndEndDate(){
+        const isHalfDay = document.getElementById('isHalfDay').checked;
+        const halfDayDateInput = document.getElementById('halfDayDateInput');
+        let startDate = document.getElementById('startDate');
+        let endDate = document.getElementById('endDate');
+        console.log(halfDayDateInput.value)
+        if (isHalfDay) {
+            startDate.value = halfDayDateInput.value
+            endDate.value = halfDayDateInput.value
+        }
+    }
+</script>
+
 </body>
 </html>
