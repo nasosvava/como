@@ -1,7 +1,6 @@
-package como.comopeople_v3.vacation.entities;
+package como.comopeople_v3.leaves;
 
 import como.comopeople_v3.user.User;
-import como.comopeople_v3.vacation.enums.LeaveType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

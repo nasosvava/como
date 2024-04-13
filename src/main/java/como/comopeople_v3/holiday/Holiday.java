@@ -1,4 +1,4 @@
-package como.comopeople_v3.vacation.entities;
+package como.comopeople_v3.holiday;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

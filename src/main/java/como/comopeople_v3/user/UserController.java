@@ -1,11 +1,10 @@
 package como.comopeople_v3.user;
 
 import como.comopeople_v3.attendance.Attendance;
-import como.comopeople_v3.attendance.AttendanceService;
 import como.comopeople_v3.attendance.AttendanceServiceImpl;
-import como.comopeople_v3.vacation.entities.Leave;
-import como.comopeople_v3.vacation.enums.LeaveType;
-import como.comopeople_v3.vacation.services.impl.LeaveServiceImpl;
+import como.comopeople_v3.leaves.Leave;
+import como.comopeople_v3.leaves.LeaveType;
+import como.comopeople_v3.leaves.LeaveServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;

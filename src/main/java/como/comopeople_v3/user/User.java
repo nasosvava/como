@@ -1,7 +1,7 @@
 package como.comopeople_v3.user;
 
 import como.comopeople_v3.attendance.Attendance;
-import como.comopeople_v3.vacation.entities.Leave;
+import como.comopeople_v3.leaves.Leave;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

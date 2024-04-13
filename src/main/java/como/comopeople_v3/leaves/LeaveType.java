@@ -1,4 +1,4 @@
-package como.comopeople_v3.vacation.enums;
+package como.comopeople_v3.leaves;
 
 public enum LeaveType {
     ANNUAL,

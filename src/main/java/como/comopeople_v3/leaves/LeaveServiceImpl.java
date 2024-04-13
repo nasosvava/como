@@ -1,15 +1,10 @@
-package como.comopeople_v3.vacation.services.impl;
+package como.comopeople_v3.leaves;
 
 import como.comopeople_v3.user.User;
 import como.comopeople_v3.user.UserRepository;
-import como.comopeople_v3.vacation.entities.Holiday;
-import como.comopeople_v3.vacation.entities.Leave;
-import como.comopeople_v3.vacation.enums.LeaveType;
-import como.comopeople_v3.vacation.repositories.HolidayRepository;
-import como.comopeople_v3.vacation.repositories.LeaveRepository;
-import como.comopeople_v3.vacation.services.LeaveService;
+import como.comopeople_v3.holiday.Holiday;
+import como.comopeople_v3.holiday.HolidayRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

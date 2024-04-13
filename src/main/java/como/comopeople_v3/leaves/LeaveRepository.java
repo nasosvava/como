@@ -1,6 +1,5 @@
-package como.comopeople_v3.vacation.repositories;
+package como.comopeople_v3.leaves;
 
-import como.comopeople_v3.vacation.entities.Leave;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

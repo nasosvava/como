@@ -1,7 +1,4 @@
-package como.comopeople_v3.vacation.services;
-
-import como.comopeople_v3.vacation.entities.Leave;
-import como.comopeople_v3.vacation.enums.LeaveType;
+package como.comopeople_v3.leaves;
 
 import java.time.LocalDate;
 import java.util.List;
