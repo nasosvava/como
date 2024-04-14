@@ -1,5 +1,6 @@
 package como.comopeople_v3.leaves;
 
+import como.comopeople_v3.emailconfig.EmailService;
 import como.comopeople_v3.user.User;
 import como.comopeople_v3.user.UserRepository;
 import como.comopeople_v3.holiday.Holiday;
@@ -19,6 +20,7 @@ public class LeaveServiceImpl implements LeaveService {
     private LeaveRepository leaveRepository;
     private UserRepository userRepository;
     private HolidayRepository holidayRepository;
+    private EmailService emailService;
 
     @Override
     public List<Leave> getAllLeavesForUser(Long userId) {
@@ -49,7 +51,17 @@ public class LeaveServiceImpl implements LeaveService {
         leave.setStartDate(startDate);
         leave.setEndDate(endDate);
         leave.setHalfDay(isHalfDay);
-        leave.setStatus("Pending");  // Initially, all leave requests are pending
+        leave.setStatus("Pending");
+        emailService.sendSimpleMessage(
+                "comotest12@gmail.com",
+                "Leave Request Submitted",
+                user.getFirstName() + " " +user.getLastName()+" made a leave request from " + startDate + " to " + endDate + " has been waiting for approval."
+        );
+        emailService.sendSimpleMessage(
+                leave.getUser().getEmail(),
+                "Leave Request Submitted",
+                "Your leave request from " + startDate + " to " + endDate + " has been submitted for approval."
+        );
         return leaveRepository.save(leave);
     }
 
@@ -58,6 +70,11 @@ public class LeaveServiceImpl implements LeaveService {
         Leave leave = leaveRepository.findById(leaveId).orElseThrow(() -> new IllegalArgumentException("Leave not found with ID: " + leaveId));
         leave.setStatus("Approved");
         updateLeaveDaysUsed(leave);
+        emailService.sendSimpleMessage(
+                leave.getUser().getEmail(),
+                "Leave Request Submitted",
+                "Your leave request has been approved."
+        );
         return leaveRepository.save(leave);
     }
 
@@ -65,6 +82,11 @@ public class LeaveServiceImpl implements LeaveService {
     public Leave rejectLeave(Long leaveId) {
         Leave leave = leaveRepository.findById(leaveId).orElseThrow(() -> new RuntimeException("Leave not found"));
         leave.setStatus("Rejected");
+        emailService.sendSimpleMessage(
+                "comotest12@gmail.com",
+                "Leave Request Submitted",
+                "Your leave request has been rejected."
+        );
         return leaveRepository.save(leave);
     }
 
