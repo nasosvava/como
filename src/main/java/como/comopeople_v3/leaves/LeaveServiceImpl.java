@@ -83,7 +83,7 @@ public class LeaveServiceImpl implements LeaveService {
         Leave leave = leaveRepository.findById(leaveId).orElseThrow(() -> new RuntimeException("Leave not found"));
         leave.setStatus("Rejected");
         emailService.sendSimpleMessage(
-                "comotest12@gmail.com",
+                leave.getUser().getEmail(),
                 "Leave Request Submitted",
                 "Your leave request has been rejected."
         );
