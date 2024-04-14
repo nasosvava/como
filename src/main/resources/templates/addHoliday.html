@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${holiday?.id != null ? 'Edit Holiday' : 'Add Holiday'}">Manage Holiday</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 th:text="${holiday?.id != null ? 'Edit Holiday' : 'Add Holiday'}">Add/Edit Holiday</h2>
+    <form th:action="@{${holiday?.id != null ? '/holidays/update/' + holiday.id : '/holidays/add'}}" method="post">
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" th:value="${holiday?.date}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" th:value="${holiday?.description}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

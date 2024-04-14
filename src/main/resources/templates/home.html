@@ -17,7 +17,25 @@
         <p>Roles: <span th:text="${#authentication.authorities}">[Roles]</span></p>
         <p>Email: <span th:text="${#authentication.principal.username}">[Email]</span></p>
     </div>
+    <div class="mt-4"  sec:authorize="isAuthenticated()">
+        <h3>Holidays:</h3>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
 
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="holiday : ${holidays}">
+                <td th:text="${holiday.date}"></td>
+                <td th:text="${holiday.description}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
     <!-- Display if user is not authenticated or anonymous -->
     <div class="alert alert-info" th:unless="${#authentication.authenticated}">
         <strong>Info:</strong> You are not logged in.

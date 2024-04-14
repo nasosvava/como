@@ -20,4 +20,9 @@ public class Holiday {
     private Long id;
     private LocalDate date;
     private String description;
+
+    public Holiday(LocalDate date, String description) {
+        this.date = date;
+        this.description = description;
+    }
 }
